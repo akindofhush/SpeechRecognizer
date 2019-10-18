@@ -13,7 +13,9 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
 
     @IBOutlet var outputTextField: UITextField!
     @IBOutlet var microphoneButton: UIButton!
+    // 按下 microphoneButton 出現的動圖
     let imageView = UIImageView()
+    // 計時器
     var detectionTimer: Timer?
     
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "zh-TW")) //1
@@ -21,14 +23,17 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //imageView按下的Action
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(tapGestureRecognizer)
         
-        microphoneButton.isEnabled = false  //禁用 microphone 按鈕，一直到語音識別器被激活
+        //禁用 microphone 按鈕，一直到語音識別器被激活
+        microphoneButton.isEnabled = false
         speechRecognizer?.delegate = self
         
-        SFSpeechRecognizer.requestAuthorization { (authStatus) in  //要求語音識別的授權
+        //要求語音識別的授權
+        SFSpeechRecognizer.requestAuthorization { (authStatus) in
             
             var isButtonEnabled = false
             
@@ -64,11 +69,13 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     
     func startRecording() { //開始語音識別和監聽麥克風
         
-        if recognitionTask != nil { //檢查recognitionTask是否處於運行狀態。如果是，取消任務，開始新的語音識別任務
+        //檢查recognitionTask是否處於運行狀態。如果是，取消任務，開始新的語音識別任務
+        if recognitionTask != nil {
             recognitionTask?.cancel()
             recognitionTask = nil
         }
         
+        // 錄音或播出音頻時的行為處理
         let audioSession = AVAudioSession.sharedInstance()
         do {
             try audioSession.setCategory(.record, mode: .measurement, options: [])
@@ -78,28 +85,29 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
             print("audioSession properties weren't set because of an error.")
         }
         
-        
+        // 發送語音辨識請求
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         
+        // 設置device的錄音設備
         let inputNode = audioEngine.inputNode
         
         guard let recognitionRequest = recognitionRequest else {
             fatalError("Unable to create an SFSpeechAudioBufferRecognitionRequest object")
         }
-        
-        recognitionRequest.shouldReportPartialResults = true //在用戶說話的同時，將識別結果分批返回
+        //在用戶說話的同時，將識別結果分批返回
+        recognitionRequest.shouldReportPartialResults = true
         var value : String = ""
         
         recognitionTask = speechRecognizer?.recognitionTask(with: recognitionRequest, resultHandler: { (result, error) in
             
-            var isFinal = false //用於檢查識別是否結束
+            var isFinal = false //用於檢查語音是否結束
             
             if result != nil {
                 self.detectionTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false, block: { (timer) in
                     recognitionRequest.endAudio()
                     timer.invalidate()
                 })
-                //識別結束
+                
                 isFinal = (result?.isFinal)!
                 if (isFinal) {
                     //將字串放入textfield
@@ -168,10 +176,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         if audioEngine.isRunning {
-            audioEngine.stop()
             recognitionRequest?.endAudio()
-            imageView.stopAnimating()
-            imageView.removeFromSuperview()
         }
     }
     

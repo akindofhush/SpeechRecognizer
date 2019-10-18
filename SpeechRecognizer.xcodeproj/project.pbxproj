@@ -319,13 +319,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8U77R87HPA;
+				DEVELOPMENT_TEAM = 2V2W2494TP;
 				INFOPLIST_FILE = SpeechRecognizer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.TzuYenHuang.SpeechRecognizer;
+				PRODUCT_BUNDLE_IDENTIFIER = tw.com.mitake.pcd.push;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -337,13 +337,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8U77R87HPA;
+				DEVELOPMENT_TEAM = 2V2W2494TP;
 				INFOPLIST_FILE = SpeechRecognizer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.TzuYenHuang.SpeechRecognizer;
+				PRODUCT_BUNDLE_IDENTIFIER = tw.com.mitake.pcd.push;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
